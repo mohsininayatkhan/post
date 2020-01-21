@@ -10,7 +10,7 @@ In future, it will be use to authenticate user using tokens.
 Installation
 ------------
 
-- git clone https://github.com/mohsininayatkhan/starwar-api.git 
+- git clone https://github.com/mohsininayatkhan/post.git 
 - cd posts
 - cp .env.example .env
 - composer install 
