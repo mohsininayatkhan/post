@@ -9,6 +9,17 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
+
+    protected static function boot() 
+    {
+        parent::boot();
+
+        // adding replies count as a propery
+        static::addGlobalScope('userPostsCount', function($builder){
+            $builder->withCount('posts');
+        });
+    }
+
     use HasApiTokens, Notifiable;
 
     /**
@@ -17,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'profile_picture',
     ];
 
     /**
@@ -37,4 +48,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
 }

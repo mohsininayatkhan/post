@@ -16,13 +16,17 @@ use Illuminate\Http\Request;
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/login', 'Auth\LoginController@login');
 
+Route::get('/post', 'Post\SearchController@search');
+
 Route::middleware(['auth:api'])->group(function () {
     
-    Route::post('/logout', 'Auth\LoginController@logout');
 
+    Route::post('/post', 'Post\CreateController@create');
+    Route::post('/logout', 'Auth\LoginController@logout');
     Route::get('/user', function (Request $request) {
     	return response($request->user());
     });
+    Route::post('/user/picture', 'User\ProfileController@uploadPicture');
 });
 
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
