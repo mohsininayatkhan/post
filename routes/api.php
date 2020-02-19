@@ -18,18 +18,12 @@ Route::post('/login', 'Auth\LoginController@login');
 
 Route::get('/post', 'Post\SearchController@search');
 
-Route::middleware(['auth:api'])->group(function () {
-    
-
+Route::middleware(['auth:api'])->group(function () {   
     Route::post('/post', 'Post\CreateController@create');
+    Route::delete('/post/{id}', 'Post\DeleteController@delete');
     Route::post('/logout', 'Auth\LoginController@logout');
     Route::get('/user', function (Request $request) {
     	return response($request->user());
     });
     Route::post('/user/picture', 'User\ProfileController@uploadPicture');
 });
-
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-

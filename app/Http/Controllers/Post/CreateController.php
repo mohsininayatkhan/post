@@ -1,5 +1,4 @@
 <?php 
-
 namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Controller;
@@ -25,18 +24,12 @@ class CreateController extends Controller
 	public function create(Request $request)
 	{
 		$this->validator($request->all())->validate();
-		$request['user_id'] = $request->user()->id;
-		$post = $this->add($request);
-		return response($post);
-	}
-
-	protected function add($data)
-	{
+		
 		$post = Post::create([
-            'title' => $data['title'],
-            'user_id' => $data['user_id']
+            'title' => $request['title'],
+            'user_id' => $request->user()->id
         ]);
 		
-		return $post->load('author');
-	}
+		return response($post->load('author'));
+	}	
 }

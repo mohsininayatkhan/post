@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\File;
+use App\Helpers\Uploader;
 
 class ProfileController extends Controller
 {
@@ -23,19 +23,20 @@ class ProfileController extends Controller
     }
 
     public function uploadPicture(Request $request)
-    {
+    {        
     	$this->validatorUploadPicture($request->all())->validate(); 
 
-    	$userId = $request->user()->id;
-    	$directory = '/uploads/users/'.$userId;
-    	$path = public_path($directory);
+        $user = $request->user();
+        $directory = '/uploads/users/'.$user->id;
+        $code = 400;
 
-    	if (!File::isDirectory($path)) {
-    		File::makeDirectory($path, 0777, true, true);
-    	}
+        $url = Uploader::file($request, $directory, 'photo');
 
-    	$fileName = "test.jpg";
-    	$path = $request->file('photo')->move($path, $fileName);
-    	return response(['url' => url($directory.'/'.$fileName)], 200);
+        if ($url) {
+            $user->profile_picture = $url;
+            $user->save();
+            $code = 200;
+        }
+        return response(['url' => $url], $code);
     }
 }
