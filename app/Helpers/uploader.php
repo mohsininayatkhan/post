@@ -29,4 +29,25 @@ class Uploader {
         }
         return $url;
 	}
+
+	public static function files($request, $directory, $input)
+	{
+		$urls = [];
+		$path = public_path($directory);
+
+    	if (!File::isDirectory($path)) {
+    		File::makeDirectory($path, 0777, true, true);
+    	}    	
+    	
+		foreach($request->file($input) as $image) {
+			$name=$image->getClientOriginalName();
+			$uploaded = $image->move($path, $name);
+
+			if ($uploaded) {
+				$urls[] = url($directory.'/'.$name); 
+			}			
+        }
+        
+        return $urls;
+	}
 }

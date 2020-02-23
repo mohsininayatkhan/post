@@ -13,7 +13,7 @@ class SearchController extends Controller
 {	
 	public function search(Request $request, PostFilter $filter)
 	{
-		$posts = Post::with('author')->latest()->filter($filter);
+		$posts = Post::with('author')->with('items')->latest()->filter($filter);
 		return $posts->simplePaginate(10);
 	}
 }

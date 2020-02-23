@@ -9,12 +9,16 @@ use App\Filters\PostFilter;
 
 class Post extends Model
 {
-	protected $guarded = [];
-	
+	protected $guarded = [];	
 
 	public function author()
     {
         return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany('App\Item');
     }
 
     public function scopeFilter($builder, PostFilter $filter)
