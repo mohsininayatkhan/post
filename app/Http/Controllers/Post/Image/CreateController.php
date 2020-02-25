@@ -19,7 +19,7 @@ class CreateController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'photo' => [
+            'photos.*' => [
             	'required', 
             	'mimes:jpeg,bmp,png', 
             	'max:2000'
@@ -29,16 +29,14 @@ class CreateController extends Controller
 
 	public function create(Request $request)
 	{
-        $user = $request->user();
-        $directory = '/uploads/posts/'.$user->id;
-        $code = 400;
-        $items = [];        
-
-        $urls = Uploader::files($request, $directory, 'photos');
+        $this->validator($request->all())->validate();         
 
         $post = Post::create([
             'user_id' => $request->user()->id
         ]);
+
+        $directory = '/uploads/posts/'.$post->id;
+        $urls = Uploader::files($request, $directory, 'photos');
 
         if (count($urls)) {
             foreach ($urls as $url) {
@@ -48,9 +46,7 @@ class CreateController extends Controller
                     'source' => $url
                 ]);                
             }
-        }
-
-        $post->items()->saveMany($items);
+        }        
         return response($post->load('author')->load('items'));
 	}
 	

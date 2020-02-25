@@ -13,7 +13,7 @@ class Uploader {
 		$file = $request->file($input);
 
 		if ($name === null) {
-			$name = Str::random(15).'.'.$file->extension();;
+			$name = Str::random(15).'.'.$file->extension();
 		}
 
 		$path = public_path($directory);
@@ -39,9 +39,9 @@ class Uploader {
     		File::makeDirectory($path, 0777, true, true);
     	}    	
     	
-		foreach($request->file($input) as $image) {
-			$name=$image->getClientOriginalName();
-			$uploaded = $image->move($path, $name);
+		foreach($request->file($input) as $file) {		
+			$name = Str::random(15).'.'.$file->extension();
+			$uploaded = $file->move($path, $name);
 
 			if ($uploaded) {
 				$urls[] = url($directory.'/'.$name); 

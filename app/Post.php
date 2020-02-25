@@ -11,6 +11,19 @@ class Post extends Model
 {
 	protected $guarded = [];	
 
+    public static function boot()
+    {
+        parent::boot();
+        
+        self::deleting(function($post) 
+        {
+             $post->items()->each(function($item)
+             {
+                $item->delete();
+             });             
+        });
+    }
+
 	public function author()
     {
         return $this->belongsTo('App\User', 'user_id');
