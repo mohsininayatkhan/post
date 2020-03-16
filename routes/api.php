@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/login', 'Auth\LoginController@login');
-
+Route::get('/user/{id}', 'User\ProfileController@getInfo');
 Route::get('/post', 'Post\SearchController@search');
 
 Route::middleware(['auth:api'])->group(function () {   
@@ -29,5 +29,5 @@ Route::middleware(['auth:api'])->group(function () {
     	return response($request->user());
     });
     Route::post('/user/picture', 'User\ProfileController@uploadPicture');
-
+    Route::post('/user', 'User\ProfileController@updateProfile');
 });
