@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class DeleteController extends Controller
 {
@@ -22,7 +23,13 @@ class DeleteController extends Controller
             $user = $request->user();           
 
             if ($post->user_id == $user->id) {                
-                $res = $post->delete();                
+                if ($post->delete()) {
+                    $directory = '/uploads/posts/'.$post->id;
+                    if (File::exists(public_path($directory))) {
+                        File::deleteDirectory(public_path($directory));    
+                    }
+                    
+                }
                 return response(null, 200);
             } else {
                 $errors = [

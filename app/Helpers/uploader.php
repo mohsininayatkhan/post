@@ -44,7 +44,8 @@ class Uploader {
 			$uploaded = $file->move($path, $name);
 
 			if ($uploaded) {
-				$urls[] = url($directory.'/'.$name); 
+				//$urls[] = url($directory.'/'.$name); 
+				$urls[] = $directory.'/'.$name; 
 			}			
         }
         

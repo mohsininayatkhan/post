@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Filters\UserFilter;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,9 @@ class User extends Authenticatable
         'name', 'email', 'password', 'profile_picture',
     ];
 
+    protected $attributes = [        
+    ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -52,5 +56,11 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany('App\Post');
+    }
+
+    public function scopeFilter($builder, UserFilter $filter)
+    {
+        //$user = auth('api')->user();
+        $filter->apply($builder);
     }
 }
