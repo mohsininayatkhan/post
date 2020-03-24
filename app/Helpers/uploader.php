@@ -25,7 +25,8 @@ class Uploader {
     	$path = $file->move($path, $name);
 
     	if ($path) {
-            $url = url($directory.'/'.$name);
+            //$url = url($directory.'/'.$name);
+            $url = $directory.'/'.$name;
         }
         return $url;
 	}
