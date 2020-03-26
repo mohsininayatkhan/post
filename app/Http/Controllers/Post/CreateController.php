@@ -29,8 +29,6 @@ class CreateController extends Controller
             'title' => $request['title'],
             'user_id' => $request->user()->id
         ]);
-		
-		//return response($post->load('author'));
         return response($post->load('author')->load('items'));
 	}	
 }

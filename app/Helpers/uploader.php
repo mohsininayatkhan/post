@@ -24,8 +24,7 @@ class Uploader {
 
     	$path = $file->move($path, $name);
 
-    	if ($path) {
-            //$url = url($directory.'/'.$name);
+    	if ($path) {            
             $url = $directory.'/'.$name;
         }
         return $url;
@@ -44,12 +43,10 @@ class Uploader {
 			$name = Str::random(15).'.'.$file->extension();
 			$uploaded = $file->move($path, $name);
 
-			if ($uploaded) {
-				//$urls[] = url($directory.'/'.$name); 
+			if ($uploaded) {				
 				$urls[] = $directory.'/'.$name; 
 			}			
-        }
-        
+        }        
         return $urls;
 	}
 }

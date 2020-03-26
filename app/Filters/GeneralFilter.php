@@ -16,7 +16,6 @@ abstract class GeneralFilter
 		$this->request = $request;
 	}
 
-
 	public function apply($builder)
 	{
 		$this->builder = $builder;		
@@ -26,8 +25,7 @@ abstract class GeneralFilter
 			if (in_array($filter, $this->filters) && method_exists($this, $filter)) {			
 				$this->$filter($value);
 			}		
-		}
-		
+		}		
 		$this->builder;
 	}	
 }

@@ -19,28 +19,7 @@ class DeleteController extends Controller
 	{        
         $post = Post::find($id);
 
-        if ($post) {
-            $user = $request->user();           
-
-            if ($post->user_id == $user->id) {                
-                if ($post->delete()) {
-                    $directory = '/uploads/posts/'.$post->id;
-                    if (File::exists(public_path($directory))) {
-                        File::deleteDirectory(public_path($directory));    
-                    }
-                    
-                }
-                return response(null, 200);
-            } else {
-                $errors = [
-                    'message' => 'Forbidden',
-                    'errors' => [
-                        ['Not allowed to delete this post']
-                    ]
-                ];
-                return response($errors, 403);
-            }
-        } else {
+        if(!$post) {
             $errors = [
                 'message' => 'Forbidden',
                 'errors' => [
@@ -49,5 +28,24 @@ class DeleteController extends Controller
             ];
             return response($errors, 404);
         }
+        
+        $user = $request->user();
+        if ($post->user_id !== $user->id) { 
+            $errors = [
+                'message' => 'Forbidden',
+                'errors' => [
+                    ['Not allowed to delete this post']
+                ]
+            ];
+            return response($errors, 403);
+        }
+
+        if ($post->delete()) {
+            $directory = '/uploads/posts/'.$post->id;
+            if (File::exists(public_path($directory))) {
+                File::deleteDirectory(public_path($directory));    
+            }                    
+        }
+        return response(null, 200);        
 	}	
 }

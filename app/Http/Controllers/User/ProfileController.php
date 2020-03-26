@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
@@ -8,10 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Helpers\Uploader;
 use App\User;
 
-
 class ProfileController extends Controller
 {
-
 	protected function validatorUploadPicture(array $data)
     {
     	// phhoto must be of specfic type and size should be less then 2 MB

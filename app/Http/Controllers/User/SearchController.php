@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Filters\UserFilter;
 
-
 class SearchController extends Controller
 {
 	public function search(Request $request, UserFilter $filter)
